@@ -1,0 +1,4 @@
+bison -d filename.y                          (use yacc if bison doesnt work)
+lex filename.l                               (use flex if lex doesnt work)
+gcc lex.yy.c filename.tab.c -o filename -lm  (-lm is required only if youre using math.h library in your program..use -lfl with it if ure not explicitly calling yywrap())
+./filename
