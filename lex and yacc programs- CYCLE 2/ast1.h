@@ -1,5 +1,5 @@
 #ifndef AST1_H
-#define AST_H
+#define AST1_H
 typedef struct Node{
     char *operator;
     int num;
