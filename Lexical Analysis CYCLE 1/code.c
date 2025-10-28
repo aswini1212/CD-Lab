@@ -1,60 +1,63 @@
 #include<stdio.h>
+#include<ctype.h>
 #include<stdlib.h>
 #include<string.h>
-#include<ctype.h>
-
-int iskeyword(char buffer[10])
+int iskeyword(char str[])
 {
-    char arr[32][10]={"int","char","float","double","void","break","continue","if","else","goto","while","do","for"};
-    for(int i=0;i<13;i++)
+    char arr[11][10]={"int","void","main","char","float","do","while","if","else","for","break","continue"};
+    for(int i=0;i<11;i++)
     {
-        if(strcmp(buffer,arr[i])==0)
+        if(strcmp(arr[i],str)==0)
         {
             return 1;
         }
-
     }
     return 0;
 }
-int main()
+void main()
 {
     FILE *fp=fopen("input.txt","r");
-    char operator[6]="+-*/%=",c;
-    char buffer[10];
-    int i,j=0;
-    if(fp==NULL)
-    {
-        printf("Error in opening the file\n");
-        exit(0);
-    }
+    char c,buffer[10],operators[7]="+-*/%=",separator[7]="(){},;";
+    int k=0;
     while((c=fgetc(fp))!=EOF)
     {
-        for(i=0;i<6;i++)
+        for(int i=0;i<strlen(operators);i++)
         {
-            if(operator[i]==c)
+            if(operators[i]==c)
             {
-                printf("Operator:%c\n",c);
+                printf("OPERATOR:%c\n",c);
             }
+
+        }
+        for(int j=0;j<strlen(separator);j++)
+        {
+            if(separator[j]==c)
+            {
+                printf("SEPARATOR:%c\n",c);
+            }
+
         }
         if(isalnum(c))
         {
-            buffer[j]=c;
-            j++;
+            buffer[k]=c;
+            k++;
         }
-        else if((c==' '||c=='\n'||c=='\t')&&(j!=0))
+        if(c==' '||c=='\t'||c=='\n')
         {
-            buffer[j]='\0';
-            if(iskeyword(buffer)==1)
+            buffer[k]='\0';
+            if(strlen(buffer)==0)
             {
-                printf("Keyword:%s\n",buffer);
+                continue;
+            }
+            if(iskeyword(buffer))
+            {
+                printf("KEYWORD:%s\n",buffer);
             }
             else
             {
-                printf("identifier:%s\n",buffer);
+                printf("IDENTIFIER:%s\n",buffer);
             }
-            j=0;
+            k=0;
         }
     }
-    fclose(fp);
-    return 0;
 }
